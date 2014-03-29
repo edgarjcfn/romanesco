@@ -12,7 +12,7 @@ exports.index = function(req, res){
       },
       { description: "Write next blog post",
         done: false
-      }
+      },
       { description: "Write that todo app",
         done: true 
       }
