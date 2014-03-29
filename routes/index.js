@@ -5,7 +5,7 @@
 
 exports.index = function(req, res){
   res.render('index', { 
-    title: 'Expressa',
+    title: 'Express',
     todos: [ 
       { description: "Buy eggs",
         done: false
