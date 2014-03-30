@@ -19,3 +19,10 @@ exports.index = function(req, res){
     ]
   });
 };
+
+exports.addTodo = function(todos) {
+  return function(req, res) {
+    todos.push(req.body);
+    res.json( {todos : todos} );
+  }
+};
