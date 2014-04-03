@@ -8,8 +8,9 @@ var routes = require('./routes');
 var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
+var config = require('./config')
 var Mongoose = require('mongoose');
-var db = Mongoose.createConnection('localhost', 'romanesco');
+var db = Mongoose.createConnection(config.mongodb_url);
 
 var TodoSchema = require('./models/Todo.js').TodoSchema;
 var Todo = db.model('todos', TodoSchema);
