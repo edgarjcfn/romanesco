@@ -2,30 +2,29 @@ var assert = require('assert');
 var index = require('../../routes/index.js');
 
 describe('/Index', function() {
-  var todos = [];
+  var todo = {data:{}};
+  var req = {body:{}};
   describe('#addTodo', function() {
-    beforeEach(function() {
-      todos.push({
-        description: 'First to-do',
-        done: true
-      });
-    });
-
     it('Should append to Todo list', function() {
-        var api = index.addTodo(todos); 
         var req = {
           body: {
             description: 'Added via request',
             done:false
           }
         };
-        var res = {
-          json : function(result) {
-            assert.equal(2, result.todos.length);
-            assert.equal(req.body.description, result.todos[1].description);
-            assert.equal(result.todos[1].done, false);
+        var Todo = function(obj) {
+          this.data = obj;
+          this.save = function(callback) {
+            assert.equal(obj, req.body);
+            callback(null, this);
           }
         };
+        var res = {
+          json : function(result) {
+            assert.equal(req.body, result.todo.data)
+          }
+        };
+        var api = index.addTodo(Todo); 
 
         api(req, res);
 

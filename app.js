@@ -8,6 +8,11 @@ var routes = require('./routes');
 var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
+var Mongoose = require('mongoose');
+var db = Mongoose.createConnection('localhost', 'romanesco');
+
+var TodoSchema = require('./models/Todo.js').TodoSchema;
+var Todo = db.model('todos', TodoSchema);
 
 var app = express();
 
@@ -27,21 +32,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
-var todos = [ 
-  { description: "Buy eggs",
-    done: false
-  },
-  { description: "Write next blog post",
-    done: false
-  },
-  { description: "Write that todo app",
-    done: true 
-  }
-];
 
-app.get('/', routes.index(todos));
+app.get('/', routes.index(Todo));
 app.get('/users', user.list);
-app.post('/todo', routes.addTodo(todos));
+app.post('/todo', routes.addTodo(Todo));
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
