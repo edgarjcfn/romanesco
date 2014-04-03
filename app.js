@@ -27,9 +27,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
+var todos = [ 
+  { description: "Buy eggs",
+    done: false
+  },
+  { description: "Write next blog post",
+    done: false
+  },
+  { description: "Write that todo app",
+    done: true 
+  }
+];
 
-app.get('/', routes.index);
+app.get('/', routes.index(todos));
 app.get('/users', user.list);
+app.post('/todo', routes.addTodo(todos));
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
